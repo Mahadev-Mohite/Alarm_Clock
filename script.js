@@ -1,10 +1,11 @@
+// creating a variable for accesing input in html
 const inputBox = document.getElementById("hours");
 const inputBox2 =document.getElementById("minutes")
 
 const listContainer = document.getElementById("list-container");
 const audio = document.getElementById("audio1");
 let amPm;
-
+// function for set time with condition
 function setTime(){
     if(inputBox.value.trim()== '' && 12){
         alert("Ooop's, Set the time first!!");
@@ -25,7 +26,7 @@ function setTime(){
         amPm = amPmInput.value;
 
         const alarmTime = format12HourTime(hours, minutes, amPm) + ' ' + amPm;
-
+        //  append the added alarm in list
         let li = document.createElement("li");
         li.innerHTML = alarmTime;
         listContainer.appendChild(li);
@@ -34,8 +35,7 @@ function setTime(){
         span.innerHTML = "\u00d7";
         li.appendChild(span);
         
-        // show music symbol
-        // audio.removeAttribute('hidden');
+        
 
         // set the alarm
         setAlarm(hours, minutes, amPm);
@@ -47,7 +47,7 @@ function setTime(){
     
 }
 
-// .............
+// set alarm function
 function setAlarm(hours, minutes, amPm) {
   const now = new Date();
   const alarmTime = new Date(now);
@@ -63,7 +63,6 @@ function setAlarm(hours, minutes, amPm) {
   const timeUntilAlarm = alarmTime.getTime() - now.getTime();
 
   if (timeUntilAlarm <= 0 && minutes=='' ) {
-    //   alert('The provided time is in the past. Please set a future time.');
       return;
   }
 
@@ -78,7 +77,7 @@ function setAlarm(hours, minutes, amPm) {
 
 
 
-// ////
+// checkedd alarm 
 listContainer.addEventListener("click",function(e){
     if(e.target.tagName === "LI"){
         e.target.classList.toggle("checked");
@@ -86,13 +85,14 @@ listContainer.addEventListener("click",function(e){
         // audio.play();
         saveData();
     }
+    // removing alarm in list
     else if(e.target.tagName === "SPAN"){
         e.target.parentElement.remove();
         saveData();
     }
     
 },false);
-
+//  to save data in localstorage
 function saveData(){
     localStorage.setItem("data",listContainer.innerHTML);
 }
